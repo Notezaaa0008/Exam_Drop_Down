@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [dataAdd, setDataAdd] = useState([]);
-  const [subDistrict, setSubDistrict] = useState("");
-  const [district, setDistrict] = useState("");
-  const [provide, setProvide] = useState("");
-  const [postCode, setPostCode] = useState("");
+  const [subDistrict, setSubDistrict] = useState({ toggle: false, name: "", value: "" });
+  const [district, setDistrict] = useState({ toggle: false, name: "", value: "" });
+  const [provide, setProvide] = useState({ toggle: false, name: "", value: "" });
+  const [postCode, setPostCode] = useState({ toggle: false, name: "", value: "" });
   const [item, setItem] = useState([]);
 
   useEffect(() => {
@@ -19,35 +19,64 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (subDistrict) {
-      const filSubDistrict = dataAdd.filter(item => item[0].includes(subDistrict));
+    if (subDistrict.value && subDistrict.toggle) {
+      const filSubDistrict = dataAdd.filter(item => item[0].includes(subDistrict.value));
       setItem(filSubDistrict);
+    } else if (district.value && district.toggle) {
+      const filDistrict = dataAdd.filter(item => item[1].includes(district.value));
+      setItem(filDistrict);
+    } else if (provide.value && provide.toggle) {
+      const filProvide = dataAdd.filter(item => item[2].includes(provide.value));
+      setItem(filProvide);
+    } else if (postCode.value && postCode.toggle) {
+      const filPostCode = dataAdd.filter(item => item[3].includes(postCode.value));
+      setItem(filPostCode);
     } else {
       setItem([]);
     }
-  }, [subDistrict]);
+  }, [subDistrict, district, provide, postCode]);
+
+  const changeValue = (name, value) => {
+    if (name === "sub-district") {
+      setSubDistrict({ toggle: true, name, value });
+      setPostCode({ ...postCode, toggle: false });
+      setDistrict({ ...district, toggle: false });
+      setProvide({ ...provide, toggle: false });
+    } else if (name === "district") {
+      setDistrict({ toggle: true, name, value });
+      setSubDistrict({ ...subDistrict, toggle: false });
+      setProvide({ ...provide, toggle: false });
+      setPostCode({ ...postCode, toggle: false });
+    } else if (name === "provide") {
+      setProvide({ toggle: true, name, value });
+      setSubDistrict({ ...subDistrict, toggle: false });
+      setPostCode({ ...postCode, toggle: false });
+      setDistrict({ ...district, toggle: false });
+    } else if (name === "post-code") {
+      setPostCode({ toggle: true, name, value });
+      setSubDistrict({ ...subDistrict, toggle: false });
+      setDistrict({ ...district, toggle: false });
+      setProvide({ ...provide, toggle: false });
+    }
+  };
 
   const handleChange = e => {
     e.preventDefault();
-    if (e.target.name === "sub-district") {
-      setSubDistrict(e.target.value);
-    } else if (e.target.name === "district") {
-      setDistrict(e.target.value);
-    } else if (e.target.name === "provide") {
-      setProvide(e.target.value);
-    } else if (e.target.name === "post-code") {
-      setPostCode(e.target.value);
-    }
+    changeValue(e.target.name, e.target.value);
+  };
+
+  const handleFocus = e => {
+    e.preventDefault();
+    changeValue(e.target.name, e.target.value);
   };
 
   const handleClick = (e, id) => {
     e.preventDefault();
-    const t = item.filter((item, index) => index === id);
-    setSubDistrict(t[0][0]);
-    setDistrict(t[0][1]);
-    setProvide(t[0][2]);
-    setPostCode(t[0][3]);
-    setItem([]);
+    const filSelectData = item.filter((item, index) => index === id);
+    setSubDistrict({ ...subDistrict, toggle: false, value: filSelectData[0][0] });
+    setDistrict({ ...district, toggle: false, value: filSelectData[0][1] });
+    setProvide({ ...provide, toggle: false, value: filSelectData[0][2] });
+    setPostCode({ ...postCode, toggle: false, value: filSelectData[0][3] });
   };
 
   return (
@@ -64,10 +93,11 @@ function App() {
             id="sub-district"
             type="text"
             onChange={handleChange}
-            value={subDistrict}
+            onFocus={handleFocus}
+            value={subDistrict.value}
           />
           <div className="container-drop-down">
-            {item[0] &&
+            {subDistrict.toggle &&
               item.map((item, index) => (
                 <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
                   {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
@@ -83,8 +113,17 @@ function App() {
             id="district"
             type="text"
             onChange={handleChange}
-            value={district}
+            onFocus={handleFocus}
+            value={district.value}
           />
+          <div className="container-drop-down">
+            {district.toggle &&
+              item.map((item, index) => (
+                <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
+                  {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
 
@@ -97,8 +136,17 @@ function App() {
             id="provide"
             type="text"
             onChange={handleChange}
-            value={provide}
+            onFocus={handleFocus}
+            value={provide.value}
           />
+          <div className="container-drop-down">
+            {provide.toggle &&
+              item.map((item, index) => (
+                <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
+                  {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
+                </div>
+              ))}
+          </div>
         </div>
         <div className="input">
           <label htmlFor="post-code">รหัสไปรษณีย์</label>
@@ -108,8 +156,17 @@ function App() {
             id="post-code"
             type="text"
             onChange={handleChange}
-            value={postCode}
+            onFocus={handleFocus}
+            value={postCode.value}
           />
+          <div className="container-drop-down">
+            {postCode.toggle &&
+              item.map((item, index) => (
+                <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
+                  {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </>

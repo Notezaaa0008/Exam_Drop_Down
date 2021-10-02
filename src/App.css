@@ -17,16 +17,27 @@
 .container-drop-down {
   z-index: 10;
   position: absolute;
-  top: 43px;
+  top: 66px;
   background-color: white;
 }
 
 .drop-down {
   padding: 10px;
-  width: 335px;
+  width: 336px;
   border: 1px lightblue solid;
 }
 
 .input-tag {
   width: 350px;
+}
+
+.input-tag:focus {
+  outline: none;
+  border: 2px lightblue solid;
+}
+
+label {
+  margin: 10px 0px;
+  font-size: 18px;
+  font-weight: bold;
 }
