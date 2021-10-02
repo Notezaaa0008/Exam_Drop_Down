@@ -25,6 +25,7 @@
   padding: 10px;
   width: 336px;
   border: 1px lightblue solid;
+  cursor: pointer;
 }
 
 .input-tag {

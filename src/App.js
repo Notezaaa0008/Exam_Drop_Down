@@ -96,14 +96,15 @@ function App() {
             onFocus={handleFocus}
             value={subDistrict.value}
           />
-          <div className="container-drop-down">
-            {subDistrict.toggle &&
-              item.map((item, index) => (
+          {subDistrict.toggle && (
+            <div className="container-drop-down">
+              {item.map((item, index) => (
                 <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
                   {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
         <div className="input">
           <label htmlFor="district">อำเภอ / เขต</label>
@@ -116,14 +117,15 @@ function App() {
             onFocus={handleFocus}
             value={district.value}
           />
-          <div className="container-drop-down">
-            {district.toggle &&
-              item.map((item, index) => (
+          {district.toggle && (
+            <div className="container-drop-down">
+              {item.map((item, index) => (
                 <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
                   {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -139,14 +141,15 @@ function App() {
             onFocus={handleFocus}
             value={provide.value}
           />
-          <div className="container-drop-down">
-            {provide.toggle &&
-              item.map((item, index) => (
+          {provide.toggle && (
+            <div className="container-drop-down">
+              {item.map((item, index) => (
                 <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
                   {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
         <div className="input">
           <label htmlFor="post-code">รหัสไปรษณีย์</label>
@@ -159,14 +162,15 @@ function App() {
             onFocus={handleFocus}
             value={postCode.value}
           />
-          <div className="container-drop-down">
-            {postCode.toggle &&
-              item.map((item, index) => (
+          {postCode.toggle && (
+            <div className="container-drop-down">
+              {item.map((item, index) => (
                 <div key={index} className="drop-down" onClick={e => handleClick(e, index)}>
                   {`${item[0]} , ${item[1]} , ${item[2]} , ${item[3]}`}
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </>
